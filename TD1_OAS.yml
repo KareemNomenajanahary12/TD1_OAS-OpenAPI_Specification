@@ -1,148 +1,150 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
-  title: Library Management API
-  description: API for managing books and authors in a library.
+  title: Course and Student Management API
   version: 1.0.0
+  description: API for managing courses and students
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/HEINOMENA2/course_management_API/1.0.0  
 paths:
-  /books:
+  /courses:
     get:
-      summary: Get a list of books
+      summary: Retrieve all courses
+      description: Get a list of all courses. Supports filtering by name and year.
       parameters:
-        - name: bookName
+        - name: name
           in: query
-          description: Filter books by name
+          description: Filter by course name
           required: false
           schema:
             type: string
-        - name: releaseDate
+        - name: year
           in: query
-          description: 
-            Filter books by release date range (format: YYYY-MM-DD )
+          description: Filter by course year
           required: false
           schema:
-            type: string
-            format: date
+            type: integer
       responses:
         '200':
-          description: A list of books
+          description: Successful response
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: '#/components/schemas/Course'
     post:
-      summary: Create a new book
+      summary: Add a new course
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Book'
+              $ref: '#/components/schemas/Course'
       responses:
         '201':
-          description: Book created successfully
+          description: Course created successfully
     put:
-      summary: Update a book (idempotent)
+      summary: Update a course
+      description: Idempotent request to update a course.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Book'
+              $ref: '#/components/schemas/Course'
       responses:
         '200':
-          description: Book updated successfully
+          description: Course updated successfully
     delete:
-      summary: Delete a book by ID
+      summary: Delete a course
+      description: Deletes a course by its ID.
       parameters:
         - name: id
           in: query
-          description: The ID of the book to delete
+          description: ID of the course to delete
           required: true
           schema:
             type: integer
       responses:
-        '204':
-          description: Book deleted successfully
+        '200':
+          description: Course deleted successfully
 
-  /authors:
+  /students:
     get:
-      summary: Get a list of authors
+      summary: Retrieve all students
+      description: Get a list of all students. Supports filtering by name.
       parameters:
-        - name: authorName
+        - name: name
           in: query
-          description: Filter authors by name
+          description: Filter by student name
           required: false
           schema:
             type: string
       responses:
         '200':
-          description: A list of authors
+          description: Successful response
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Author'
+                  $ref: '#/components/schemas/Student'
     post:
-      summary: Create a new author
+      summary: Add a new student
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Author'
+              $ref: '#/components/schemas/Student'
       responses:
         '201':
-          description: Author created successfully
+          description: Student added successfully
     put:
-      summary: Update an author (idempotent)
+      summary: Update a student
+      description: Idempotent request to update a student.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Author'
+              $ref: '#/components/schemas/Student'
       responses:
         '200':
-          description: Author updated successfully
+          description: Student updated successfully
     delete:
-      summary: Delete an author by ID
+      summary: Delete a student
+      description: Deletes a student by their ID.
       parameters:
         - name: id
           in: query
-          description: The ID of the author to delete
+          description: ID of the student to delete
           required: true
           schema:
             type: integer
       responses:
-        '204':
-          description: Author deleted successfully
+        '200':
+          description: Student deleted successfully
 
 components:
   schemas:
-    Book:
+    Course:
       type: object
       properties:
         id:
           type: integer
-        bookName:
+        name:
           type: string
-        author:
-          type: string
-        pageNumbers:
+        year:
           type: integer
-        topic:
+        promotion:
           type: string
-          enum:
-            - ROMANCE
-            - COMEDY
-            - OTHER
-        releaseDate:
-          type: string
-          format: date
-    Author:
+          enum: [G, H, K]
+        studentCount:
+          type: integer
+    Student:
       type: object
       properties:
         id:
@@ -151,6 +153,12 @@ components:
           type: string
         sex:
           type: string
-          enum:
-            - M
-            - F
+          enum: [M, F]
+        birthdate:
+          type: string
+          format: date
+        reference:
+          type: string
+        group:
+          type: string
+          example: J2
