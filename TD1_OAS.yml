@@ -130,15 +130,13 @@ paths:
 
 components:
   schemas:
-    Course:
+    Group:
       type: object
       properties:
         id:
           type: integer
         name:
           type: string
-        year:
-          type: integer
         promotion:
           type: string
           enum: [G, H, K]
@@ -160,5 +158,4 @@ components:
         reference:
           type: string
         group:
-          type: string
-          example: J2
+          $ref: '#/components/schemas/Group'
